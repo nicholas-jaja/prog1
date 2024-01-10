@@ -19,7 +19,7 @@ def forecast(n_days):
     data.set_index('date', inplace=True)
     endog=data.sales
     exog=data.price
-
+    
 
     model_new_exog=pm.auto_arima(exog,seasonal=True,m=7,information_criterion='aic',trace=True,error_action='ignore',stepwise=True,suppress_warnings=True)
     results_new_exog=model_new_exog.fit(exog)
@@ -42,7 +42,10 @@ def forecast(n_days):
     results=model.fit(endog, exogenous=exog)
     forecast_values = results.predict(n_periods=n_days, exogenous=new_exog)
     forecast_values = pd.Series(forecast_values.values, index=forecast_values.index, name='sales')
-    
+
+    # plt.clf()
+    # results.plot_diagnostics()
+    # plt.show()
 
     forecast_values_df = pd.DataFrame({'date': forecast_values.index, 'sales': forecast_values.values})
     forecast_values_df["date"]=forecast_values_df["date"]
